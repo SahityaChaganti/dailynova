@@ -1,0 +1,35 @@
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 flex flex-col justify-between">
+    <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">
+        Top Headlines
+    </h2>
+
+    <ng-container *ngIf="!loading && newsList.length > 0; else loadingTpl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div *ngFor="let news of newsList" (click)="openLink(news.link)"
+                class="cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-all rounded-xl overflow-hidden shadow-sm">
+                <img *ngIf="news.image_url" [src]="news.image_url" alt="{{ news.title }}"
+                    class="w-full h-40 object-cover" />
+                <div class="p-3">
+                    <h3 class="text-md font-semibold text-gray-800 dark:text-gray-100 line-clamp-2">
+                        {{ news.title }}
+                    </h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex justify-between items-center">
+                        <span>{{ news.source_name || 'Unknown' }}</span>
+                        <span>{{
+                            news.pubDate | date : 'mediumDate'
+                            }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+        <p class="text-gray-400 text-center">Loading latest news...</p>
+    </ng-template>
+</div>
+
+<!-- Optional debug info -->
+<p class="text-xs text-gray-400 mt-2">
+    Debug → loading={{ loading }} | count={{ newsList.length }}
+</p>
